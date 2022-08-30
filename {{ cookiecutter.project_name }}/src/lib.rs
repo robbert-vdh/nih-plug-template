@@ -1,5 +1,4 @@
 use nih_plug::prelude::*;
-use parking_lot::RwLock;
 use std::sync::Arc;
 
 // This is a shortened version of the gain example with most comments removed, check out

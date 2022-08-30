@@ -7,3 +7,5 @@ This template can be used with
 ```bash
 cookiecutter gh:robbert-vdh/nih-plug-template
 ```
+
+Check out the generated project's readme for building instructions.
