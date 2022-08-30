@@ -1,0 +1,17 @@
+{
+  "project_name": "your_plugin_name (use underscores)",
+  "struct_name": "{{ cookiecutter.project_name|replace('_', ' ')|title|replace(' ', '') }}",
+  "plugin_name": "{{ cookiecutter.project_name|replace('_', ' ')|title }}",
+  "author": "Your Name",
+  "email_address": "your@email.com",
+  "url": "https://youtu.be/dQw4w9WgXcQ",
+  "description": "A short description of your plugin",
+  "clap_id": "com.your-domain.{{ cookiecutter.project_name|replace('_', '-') }}",
+  "vst3_id": "Exactly16Chars!!",
+  "license": [
+    "GPL-3.0-or-later",
+    "ISC",
+    "Other licenses can be set in Cargo.toml, but using the project needs to be GPLv3 compliant to be able to use the VST3 exporter. Check Cargo.toml for more information."
+  ],
+  "Make sure to change the CLAP features and VST3 categories in src/lib.rs": "press enter to finish"
+}
