@@ -13,5 +13,5 @@
     "ISC",
     "Other licenses can be set in Cargo.toml, but using the project needs to be GPLv3 compliant to be able to use the VST3 exporter. Check Cargo.toml for more information."
   ],
-  "Make sure to change the CLAP features and VST3 categories in src/lib.rs": "press enter to finish"
+  "\nDone\nMake sure to change the CLAP features and VST3 categories in src/lib.rs": "press enter to finish"
 }
