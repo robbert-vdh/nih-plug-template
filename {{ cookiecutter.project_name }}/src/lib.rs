@@ -63,7 +63,7 @@ impl Plugin for {{ cookiecutter.struct_name }} {
     const URL: &'static str = "{{ cookiecutter.url }}";
     const EMAIL: &'static str = "{{ cookiecutter.email_address }}";
 
-    const VERSION: &'static str = "0.0.1";
+    const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
     const DEFAULT_INPUT_CHANNELS: u32 = 2;
     const DEFAULT_OUTPUT_CHANNELS: u32 = 2;
