@@ -76,6 +76,11 @@ impl Plugin for {{ cookiecutter.struct_name }} {
 
     const SAMPLE_ACCURATE_AUTOMATION: bool = true;
 
+    // More advanced plugins can use this to run expensive background tasks. See the field's
+    // documentation for more information. `()` means that the plugin does not have any background
+    // tasks.
+    type BackgroundTask = ();
+
     fn params(&self) -> Arc<dyn Params> {
         self.params.clone()
     }
@@ -89,7 +94,7 @@ impl Plugin for {{ cookiecutter.struct_name }} {
         &mut self,
         _bus_config: &BusConfig,
         _buffer_config: &BufferConfig,
-        _context: &mut impl InitContext,
+        _context: &mut impl InitContext<Self>,
     ) -> bool {
         // Resize buffers and perform other potentially expensive initialization operations here.
         // The `reset()` function is always called right after this function. You can remove this
@@ -106,7 +111,7 @@ impl Plugin for {{ cookiecutter.struct_name }} {
         &mut self,
         buffer: &mut Buffer,
         _aux: &mut AuxiliaryBuffers,
-        _context: &mut impl ProcessContext,
+        _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
         for channel_samples in buffer.iter_samples() {
             // Smoothing is optionally built into the parameters themselves
