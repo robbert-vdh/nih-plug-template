@@ -60,7 +60,7 @@ impl Default for {{ cookiecutter.struct_name }}Params {
 impl Plugin for {{ cookiecutter.struct_name }} {
     const NAME: &'static str = "{{ cookiecutter.plugin_name }}";
     const VENDOR: &'static str = "{{ cookiecutter.author }}";
-    const URL: &'static str = "{{ cookiecutter.url }}";
+    const URL: &'static str = env!("CARGO_PKG_HOMEPAGE");
     const EMAIL: &'static str = "{{ cookiecutter.email_address }}";
 
     const VERSION: &'static str = env!("CARGO_PKG_VERSION");
