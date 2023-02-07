@@ -143,9 +143,10 @@ impl ClapPlugin for {{ cookiecutter.struct_name }} {
 impl Vst3Plugin for {{ cookiecutter.struct_name }} {
     const VST3_CLASS_ID: [u8; 16] = *b"{{ cookiecutter.vst3_id }}";
 
-    // And don't forget to change these categories, see the docstring on `VST3_CATEGORIES` for more
+    // And don't forget to change these categories, see the docstring on `VST3_SUBCATEGORIES` for more
     // information
-    const VST3_CATEGORIES: &'static str = "Fx|Dynamics";
+    const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] =
+        &[Vst3SubCategory::Fx, Vst3SubCategory::Dynamics];
 }
 
 nih_export_clap!({{ cookiecutter.struct_name }});
