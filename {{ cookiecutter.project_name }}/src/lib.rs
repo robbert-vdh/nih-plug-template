@@ -65,11 +65,21 @@ impl Plugin for {{ cookiecutter.struct_name }} {
 
     const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
-    const DEFAULT_INPUT_CHANNELS: u32 = 2;
-    const DEFAULT_OUTPUT_CHANNELS: u32 = 2;
+    // The first audio IO layout is used as the default. The other layouts may be selected either
+    // explicitly or automatically by the host or the user depending on the plugin API/backend.
+    const AUDIO_IO_LAYOUTS: &'static [AudioIOLayout] = &[AudioIOLayout {
+        main_input_channels: NonZeroU32::new(2),
+        main_output_channels: NonZeroU32::new(2),
 
-    const DEFAULT_AUX_INPUTS: Option<AuxiliaryIOConfig> = None;
-    const DEFAULT_AUX_OUTPUTS: Option<AuxiliaryIOConfig> = None;
+        aux_input_ports: &[],
+        aux_output_ports: &[],
+
+        // Individual ports and the layout as a whole can be named here. By default these names
+        // are generated as needed. This layout will be called 'Stereo', while a layout with
+        // only one input and output channel would be called 'Mono'.
+        names: PortNames::const_default(),
+    }];
+
 
     const MIDI_INPUT: MidiConfig = MidiConfig::None;
     const MIDI_OUTPUT: MidiConfig = MidiConfig::None;
@@ -87,11 +97,6 @@ impl Plugin for {{ cookiecutter.struct_name }} {
 
     fn params(&self) -> Arc<dyn Params> {
         self.params.clone()
-    }
-
-    fn accepts_bus_config(&self, config: &BusConfig) -> bool {
-        // This works with any symmetrical IO layout
-        config.num_input_channels == config.num_output_channels && config.num_input_channels > 0
     }
 
     fn initialize(
@@ -143,8 +148,7 @@ impl ClapPlugin for {{ cookiecutter.struct_name }} {
 impl Vst3Plugin for {{ cookiecutter.struct_name }} {
     const VST3_CLASS_ID: [u8; 16] = *b"{{ cookiecutter.vst3_id }}";
 
-    // And don't forget to change these categories, see the docstring on `VST3_SUBCATEGORIES` for more
-    // information
+    // And also don't forget to change these categories
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] =
         &[Vst3SubCategory::Fx, Vst3SubCategory::Dynamics];
 }
