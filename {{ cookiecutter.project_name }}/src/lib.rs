@@ -9,7 +9,7 @@ todo!();
 {% elif cookiecutter.editor_gui_framework == "iced" %}
 use nih_plug_iced::IcedState;
 {% elif cookiecutter.editor_gui_framework == "vizia" %}
-todo!();
+use nih_plug_vizia::ViziaState;
 {% endif %}
 
 {% if cookiecutter.__has_editor == "True" %}
@@ -39,11 +39,15 @@ struct {{ cookiecutter.struct_name }} {
 
 #[derive(Params)]
 struct {{ cookiecutter.struct_name }}Params {
-    {% if cookiecutter.editor_gui_framework == "iced" %}
+    {% if cookiecutter.__has_editor == "True" %}
     /// The editor state, saved together with the parameter state so the custom scaling can be
     /// restored.
     #[persist = "editor-state"]
+    {% if cookiecutter.editor_gui_framework == "iced" %}
     editor_state: Arc<IcedState>,
+    {% elif cookiecutter.editor_gui_framework == "vizia" %}
+    editor_state: Arc<ViziaState>,
+    {% endif %}
     {% endif %}
 
     /// The parameter's ID is used to identify the parameter in the wrappred plugin API. As long as
@@ -110,18 +114,25 @@ impl Plugin for {{ cookiecutter.struct_name }} {
 
     // The first audio IO layout is used as the default. The other layouts may be selected either
     // explicitly or automatically by the host or the user depending on the plugin API/backend.
-    const AUDIO_IO_LAYOUTS: &'static [AudioIOLayout] = &[AudioIOLayout {
-        main_input_channels: NonZeroU32::new(2),
-        main_output_channels: NonZeroU32::new(2),
+    const AUDIO_IO_LAYOUTS: &'static [AudioIOLayout] = &[
+        AudioIOLayout {
+            main_input_channels: NonZeroU32::new(2),
+            main_output_channels: NonZeroU32::new(2),
 
-        aux_input_ports: &[],
-        aux_output_ports: &[],
+            aux_input_ports: &[],
+            aux_output_ports: &[],
 
-        // Individual ports and the layout as a whole can be named here. By default these names
-        // are generated as needed. This layout will be called 'Stereo', while a layout with
-        // only one input and output channel would be called 'Mono'.
-        names: PortNames::const_default(),
-    }];
+            // Individual ports and the layout as a whole can be named here. By default these names
+            // are generated as needed. This layout will be called 'Stereo', while a layout with
+            // only one input and output channel would be called 'Mono'.
+            names: PortNames::const_default(),
+        },
+        AudioIOLayout {
+            main_input_channels: NonZeroU32::new(1),
+            main_output_channels: NonZeroU32::new(1),
+            ..AudioIOLayout::const_default()
+        },
+    ];
 
 
     const MIDI_INPUT: MidiConfig = MidiConfig::None;
@@ -232,16 +243,21 @@ impl ClapPlugin for {{ cookiecutter.struct_name }} {
     const CLAP_MANUAL_URL: Option<&'static str> = Some(Self::URL);
     const CLAP_SUPPORT_URL: Option<&'static str> = None;
 
-    // Don't forget to change these features
-    const CLAP_FEATURES: &'static [ClapFeature] = &[ClapFeature::AudioEffect, ClapFeature::Stereo];
+    // TODO: Don't forget to change these features
+    const CLAP_FEATURES: &'static [ClapFeature] = &[
+        ClapFeature::AudioEffect,
+        ClapFeature::Stereo,
+        ClapFeature::Mono,
+        ClapFeature::Utility
+    ];
 }
 
 impl Vst3Plugin for {{ cookiecutter.struct_name }} {
     const VST3_CLASS_ID: [u8; 16] = *b"{{ cookiecutter.vst3_id }}";
 
-    // And also don't forget to change these categories
+    // TODO: And also don't forget to change these categories
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] =
-        &[Vst3SubCategory::Fx, Vst3SubCategory::Dynamics];
+        &[Vst3SubCategory::Fx, Vst3SubCategory::Tools];
 }
 
 nih_export_clap!({{ cookiecutter.struct_name }});
