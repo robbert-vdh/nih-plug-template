@@ -17,9 +17,17 @@ crate-type = ["cdylib"]
 # Remove the `assert_process_allocs` feature to allow allocations on the audio
 # thread in debug builds.
 nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
+{% if cookiecutter.editor_gui_framework == "iced" %}
+nih_plug_iced = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+{% elif cookiecutter.editor_gui_framework == "vizia" %}
+nih_plug_vizia = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+{% endif %}
 # Uncomment the below line to disable the on-by-default VST3 feature to remove
 # the GPL compatibility requirement
 # nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", default_features = false, features = ["assert_process_allocs"] }
+{% if cookiecutter.__has_editor == "True" %}
+atomic_float = "0.1"
+{% endif %}
 
 [profile.release]
 lto = "thin"

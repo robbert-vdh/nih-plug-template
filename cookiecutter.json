@@ -13,5 +13,15 @@
     "ISC",
     "Other licenses can be set in Cargo.toml, but using the project needs to be GPLv3 compliant to be able to use the VST3 exporter. Check Cargo.toml for more information."
   ],
-  "\nDone\nMake sure to change the CLAP features and VST3 categories in src/lib.rs": "press enter to finish"
+  "editor_gui_framework": [
+    "no GUI",
+    "iced",
+    "vizia"
+  ],
+  "\nDone\nMake sure to change the CLAP features and VST3 categories in src/lib.rs": "press enter to finish",
+  "__has_editor": "{{ cookiecutter.editor_gui_framework in ['egui', 'iced', 'vizia'] }}",
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true
+  }
 }
