@@ -2,7 +2,7 @@ from pathlib import Path
 
 # NOTE: must match the names in the cookiecutter.editor_gui_framework and the
 #       postfix of the editor_XXXX.rs files exactly
-frameworks = ["egui", "iced", "vizia"]
+frameworks = ["iced", "vizia"]
 
 
 def delete_editor_file(framework: str):

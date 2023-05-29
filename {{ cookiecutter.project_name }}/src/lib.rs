@@ -4,9 +4,7 @@ use std::sync::Arc;
 use atomic_float::AtomicF32;
 {% endif %}
 use nih_plug::prelude::*;
-{% if cookiecutter.editor_gui_framework == "egui" %}
-todo!();
-{% elif cookiecutter.editor_gui_framework == "iced" %}
+{% if cookiecutter.editor_gui_framework == "iced" %}
 use nih_plug_iced::IcedState;
 {% elif cookiecutter.editor_gui_framework == "vizia" %}
 use nih_plug_vizia::ViziaState;
