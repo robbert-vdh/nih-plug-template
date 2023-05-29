@@ -15,7 +15,6 @@
   ],
   "editor_gui_framework": [
     "no GUI",
-    "egui",
     "iced",
     "vizia"
   ],
