@@ -24,6 +24,10 @@ nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["a
 nih_plug_vizia = { git = "https://github.com/robbert-vdh/nih-plug.git" }
 {%- endif %}
 
+{% if cookiecutter.__nogui == "False" -%}
+atomic_float = "0.1"
+{%- endif %}
+
 
 [profile.release]
 lto = "thin"
