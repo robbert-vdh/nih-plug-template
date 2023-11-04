@@ -1,9 +1,19 @@
 use nih_plug::prelude::*;
 use std::sync::Arc;
+{% if cookiecutter.__nogui == "False" -%}
+use atomic_float::AtomicF32;
+{%- endif %}
+{% if cookiecutter.__vizia == "True" -%}
+use nih_plug_vizia::ViziaState;
+{%- endif %}
 
 // This is a shortened version of the gain example with most comments removed, check out
 // https://github.com/robbert-vdh/nih-plug/blob/master/plugins/examples/gain/src/lib.rs to get
 // started
+
+{% if cookiecutter.__nogui == "False" -%}
+mod editor;
+{%- endif %}
 
 struct {{ cookiecutter.struct_name }} {
     params: Arc<{{ cookiecutter.struct_name }}Params>,
@@ -11,6 +21,13 @@ struct {{ cookiecutter.struct_name }} {
 
 #[derive(Params)]
 struct {{ cookiecutter.struct_name }}Params {
+    {% if cookiecutter.__vizia == "True" -%}
+    /// The editor state, saved together with the parameter state so the custom scaling can be
+    /// restored.
+    #[persist = "editor-state"]
+    editor_state: Arc<ViziaState>,
+    {%- endif %}
+
     /// The parameter's ID is used to identify the parameter in the wrappred plugin API. As long as
     /// these IDs remain constant, you can rename and reorder these fields as you wish. The
     /// parameters are exposed to the host in the same order they were defined. In this case, this
@@ -30,6 +47,10 @@ impl Default for {{ cookiecutter.struct_name }} {
 impl Default for {{ cookiecutter.struct_name }}Params {
     fn default() -> Self {
         Self {
+            {% if cookiecutter.__vizia == "True" -%}
+                editor_state: editor::default_state(),
+            {%- endif %}
+
             // This gain is stored as linear gain. NIH-plug comes with useful conversion functions
             // to treat these kinds of parameters as if we were dealing with decibels. Storing this
             // as decibels is easier to work with, but requires a conversion for every sample.
@@ -98,6 +119,15 @@ impl Plugin for {{ cookiecutter.struct_name }} {
     fn params(&self) -> Arc<dyn Params> {
         self.params.clone()
     }
+
+    {% if cookiecutter.__vizia == "True" -%}
+    fn editor(&mut self, _async_executor: AsyncExecutor<Self>) -> Option<Box<dyn Editor>> {
+        editor::create(
+            self.params.clone(),
+            self.params.editor_state.clone()
+        )
+    }
+    {%- endif %}
 
     fn initialize(
         &mut self,

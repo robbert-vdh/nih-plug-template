@@ -8,6 +8,12 @@
   "description": "A short description of your plugin",
   "clap_id": "com.your-domain.{{ cookiecutter.project_name|replace('_', '-') }}",
   "vst3_id": "Exactly16Chars!!",
+  "editor_gui_framework": [
+  	"none",
+  	"Vizia"
+  ],
+  "__nogui": "{{ cookiecutter.editor_gui_framework == 'none' }}",
+  "__vizia": "{{ cookiecutter.editor_gui_framework == 'Vizia' }}",
   "license": [
     "GPL-3.0-or-later",
     "ISC",

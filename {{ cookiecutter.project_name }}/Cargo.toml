@@ -20,6 +20,10 @@ nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["a
 # Uncomment the below line to disable the on-by-default VST3 feature to remove
 # the GPL compatibility requirement
 # nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", default_features = false, features = ["assert_process_allocs"] }
+{% if cookiecutter.__vizia == "True" -%}
+nih_plug_vizia = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+{%- endif %}
+
 
 [profile.release]
 lto = "thin"
