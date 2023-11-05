@@ -1,11 +1,10 @@
-use atomic_float::AtomicF32;
-use nih_plug::prelude::{util, Editor, GuiContext};
+use nih_plug::prelude::{Editor, GuiContext};
 use nih_plug_iced::widgets as nih_widgets;
 use nih_plug_iced::*;
 use std::sync::Arc;
 use std::time::Duration;
 
-use crate::GainParams;
+use crate::{{ cookiecutter.struct_name }}Params;
 
 // Makes sense to also define this here, makes it a bit easier to keep track of
 pub(crate) fn default_state() -> Arc<IcedState> {
@@ -13,14 +12,14 @@ pub(crate) fn default_state() -> Arc<IcedState> {
 }
 
 pub(crate) fn create(
-    params: Arc<GainParams>,
+    params: Arc<{{ cookiecutter.struct_name }}Params>,
     editor_state: Arc<IcedState>,
 ) -> Option<Box<dyn Editor>> {
-    create_iced_editor::<GainEditor>(editor_state, (params,))
+    create_iced_editor::<{{ cookiecutter.struct_name }}Editor>(editor_state, (params,))
 }
 
-struct GainEditor {
-    params: Arc<GainParams>,
+struct {{ cookiecutter.struct_name }}Editor {
+    params: Arc<{{ cookiecutter.struct_name }}Params>,
     context: Arc<dyn GuiContext>,
 
     gain_slider_state: nih_widgets::param_slider::State,
@@ -32,16 +31,16 @@ enum Message {
     ParamUpdate(nih_widgets::ParamMessage),
 }
 
-impl IcedEditor for GainEditor {
+impl IcedEditor for {{ cookiecutter.struct_name }}Editor {
     type Executor = executor::Default;
     type Message = Message;
-    type InitializationFlags = (Arc<GainParams>, Arc<AtomicF32>);
+    type InitializationFlags = (Arc<{{ cookiecutter.struct_name }}Params>, Arc<AtomicF32>);
 
     fn new(
         (params,): Self::InitializationFlags,
         context: Arc<dyn GuiContext>,
     ) -> (Self, Command<Self::Message>) {
-        let editor = GainEditor {
+        let editor = {{ cookiecutter.struct_name }}Editor {
             params,
             context,
 
@@ -71,7 +70,7 @@ impl IcedEditor for GainEditor {
         Column::new()
             .align_items(Alignment::Center)
             .push(
-                Text::new("Gain GUI")
+                Text::new("{{ cookiecutter.struct_name }} GUI")
                     .font(assets::NOTO_SANS_LIGHT)
                     .size(40)
                     .height(50.into())

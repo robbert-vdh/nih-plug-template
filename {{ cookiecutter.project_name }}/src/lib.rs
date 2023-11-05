@@ -1,8 +1,5 @@
 use nih_plug::prelude::*;
 use std::sync::Arc;
-{% if cookiecutter.__nogui == "False" -%}
-use atomic_float::AtomicF32;
-{%- endif %}
 {% if cookiecutter.__vizia == "True" -%}
 use nih_plug_vizia::ViziaState;
 {%- endif %}

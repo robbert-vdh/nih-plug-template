@@ -1,18 +1,14 @@
-use atomic_float::AtomicF32;
-use nih_plug::prelude::{util, Editor};
+use nih_plug::prelude::Editor;
 use nih_plug_vizia::vizia::prelude::*;
 use nih_plug_vizia::widgets::*;
 use nih_plug_vizia::{assets, create_vizia_editor, ViziaState, ViziaTheming};
-use std::sync::atomic::Ordering;
 use std::sync::Arc;
-use std::time::Duration;
 
-use crate::GainParams;
+use crate::{{ cookiecutter.struct_name }}Params;
 
 #[derive(Lens)]
 struct Data {
-    params: Arc<GainParams>,
-    peak_meter: Arc<AtomicF32>,
+    params: Arc<{{ cookiecutter.struct_name }}Params>,
 }
 
 impl Model for Data {}
@@ -23,7 +19,7 @@ pub(crate) fn default_state() -> Arc<ViziaState> {
 }
 
 pub(crate) fn create(
-    params: Arc<GainParams>,
+    params: Arc<{{ cookiecutter.struct_name }}Params>,
     editor_state: Arc<ViziaState>,
 ) -> Option<Box<dyn Editor>> {
     create_vizia_editor(editor_state, ViziaTheming::Custom, move |cx, _| {
@@ -38,7 +34,7 @@ pub(crate) fn create(
         ResizeHandle::new(cx);
 
         VStack::new(cx, |cx| {
-            Label::new(cx, "Gain GUI")
+            Label::new(cx, "{{ cookiecutter.struct_name }} GUI")
                 .font_family(vec![FamilyOwned::Name(String::from(
                     assets::NOTO_SANS_THIN,
                 ))])
