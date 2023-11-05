@@ -4,7 +4,8 @@ import os
 # key value pairs from source location to destination location,
 # also lets you rename files if you want
 MOVE_PATHS = {
-    {% if cookiecutter.__vizia == "True" %}"_editors/_editor-vizia.rs": "src/editor.rs"{% endif %}
+    {% if cookiecutter.__vizia == "True" %}"_editors/_editor-vizia.rs": "src/editor.rs",{% endif %}
+    {% if cookiecutter.__iced == "True" %}"_editors/_editor-iced.rs": "src/editor.rs",{% endif %}
 }
 
 DELETE_PATHS = [

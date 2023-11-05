@@ -6,6 +6,9 @@ use atomic_float::AtomicF32;
 {% if cookiecutter.__vizia == "True" -%}
 use nih_plug_vizia::ViziaState;
 {%- endif %}
+{% if cookiecutter.__iced == "True" -%}
+use nih_plug_iced::IcedState;
+{%- endif %}
 
 // This is a shortened version of the gain example with most comments removed, check out
 // https://github.com/robbert-vdh/nih-plug/blob/master/plugins/examples/gain/src/lib.rs to get
@@ -27,6 +30,12 @@ struct {{ cookiecutter.struct_name }}Params {
     #[persist = "editor-state"]
     editor_state: Arc<ViziaState>,
     {%- endif %}
+    {% if cookiecutter.__iced == "True" -%}
+    /// The editor state, saved together with the parameter state so the custom scaling can be
+    /// restored.
+    #[persist = "editor-state"]
+    editor_state: Arc<IcedState>,
+    {%- endif %}
 
     /// The parameter's ID is used to identify the parameter in the wrappred plugin API. As long as
     /// these IDs remain constant, you can rename and reorder these fields as you wish. The
@@ -47,7 +56,7 @@ impl Default for {{ cookiecutter.struct_name }} {
 impl Default for {{ cookiecutter.struct_name }}Params {
     fn default() -> Self {
         Self {
-            {% if cookiecutter.__vizia == "True" -%}
+            {% if cookiecutter.__nogui == "False" -%}
                 editor_state: editor::default_state(),
             {%- endif %}
 
@@ -120,7 +129,7 @@ impl Plugin for {{ cookiecutter.struct_name }} {
         self.params.clone()
     }
 
-    {% if cookiecutter.__vizia == "True" -%}
+    {% if cookiecutter.__nogui == "False" -%}
     fn editor(&mut self, _async_executor: AsyncExecutor<Self>) -> Option<Box<dyn Editor>> {
         editor::create(
             self.params.clone(),

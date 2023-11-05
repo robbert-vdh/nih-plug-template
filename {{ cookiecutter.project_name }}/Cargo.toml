@@ -23,6 +23,10 @@ nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["a
 {% if cookiecutter.__vizia == "True" -%}
 nih_plug_vizia = { git = "https://github.com/robbert-vdh/nih-plug.git" }
 {%- endif %}
+{% if cookiecutter.__iced == "True" -%}
+nih_plug_iced = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+{%- endif %}
+
 
 {% if cookiecutter.__nogui == "False" -%}
 atomic_float = "0.1"
