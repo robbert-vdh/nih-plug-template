@@ -19,7 +19,7 @@ crate-type = ["cdylib"]
 nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
 # Uncomment the below line to disable the on-by-default VST3 feature to remove
 # the GPL compatibility requirement
-# nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", default_features = false, features = ["assert_process_allocs"] }
+# nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", default-features = false, features = ["assert_process_allocs"] }
 
 [profile.release]
 lto = "thin"
